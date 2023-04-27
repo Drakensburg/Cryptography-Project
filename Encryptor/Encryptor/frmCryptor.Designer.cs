@@ -42,14 +42,9 @@ namespace Encryptor
             this.cbTransposition = new System.Windows.Forms.CheckBox();
             this.cbUnique = new System.Windows.Forms.CheckBox();
             this.btnConstraints = new System.Windows.Forms.Button();
-            this.gbConstraints = new System.Windows.Forms.GroupBox();
             this.tbKey = new System.Windows.Forms.TextBox();
             this.lblKey = new System.Windows.Forms.Label();
-            this.lblTransposition = new System.Windows.Forms.Label();
-            this.sbColumn = new System.Windows.Forms.HScrollBar();
-            this.sbRow = new System.Windows.Forms.HScrollBar();
-            this.lblColumn = new System.Windows.Forms.Label();
-            this.lblRow = new System.Windows.Forms.Label();
+            this.gbConstraints = new System.Windows.Forms.GroupBox();
             this.gbMethods.SuspendLayout();
             this.gbConstraints.SuspendLayout();
             this.SuspendLayout();
@@ -162,29 +157,12 @@ namespace Encryptor
             // 
             // btnConstraints
             // 
-            this.btnConstraints.Location = new System.Drawing.Point(6, 190);
+            this.btnConstraints.Location = new System.Drawing.Point(6, 84);
             this.btnConstraints.Name = "btnConstraints";
             this.btnConstraints.Size = new System.Drawing.Size(240, 50);
             this.btnConstraints.TabIndex = 7;
-            this.btnConstraints.Text = "SET CONSTRAINTS";
+            this.btnConstraints.Text = "SET CONSTRAINT";
             this.btnConstraints.UseVisualStyleBackColor = true;
-            // 
-            // gbConstraints
-            // 
-            this.gbConstraints.Controls.Add(this.lblRow);
-            this.gbConstraints.Controls.Add(this.lblColumn);
-            this.gbConstraints.Controls.Add(this.sbRow);
-            this.gbConstraints.Controls.Add(this.sbColumn);
-            this.gbConstraints.Controls.Add(this.lblTransposition);
-            this.gbConstraints.Controls.Add(this.lblKey);
-            this.gbConstraints.Controls.Add(this.tbKey);
-            this.gbConstraints.Controls.Add(this.btnConstraints);
-            this.gbConstraints.Location = new System.Drawing.Point(711, 234);
-            this.gbConstraints.Name = "gbConstraints";
-            this.gbConstraints.Size = new System.Drawing.Size(252, 246);
-            this.gbConstraints.TabIndex = 8;
-            this.gbConstraints.TabStop = false;
-            this.gbConstraints.Text = "CONSTRAINTS";
             // 
             // tbKey
             // 
@@ -203,50 +181,17 @@ namespace Encryptor
             this.lblKey.TabIndex = 9;
             this.lblKey.Text = "KEY";
             // 
-            // lblTransposition
+            // gbConstraints
             // 
-            this.lblTransposition.AutoSize = true;
-            this.lblTransposition.Location = new System.Drawing.Point(6, 95);
-            this.lblTransposition.Name = "lblTransposition";
-            this.lblTransposition.Size = new System.Drawing.Size(165, 21);
-            this.lblTransposition.TabIndex = 10;
-            this.lblTransposition.Text = "Transpositional Shift";
-            // 
-            // sbColumn
-            // 
-            this.sbColumn.Location = new System.Drawing.Point(10, 116);
-            this.sbColumn.Minimum = 1;
-            this.sbColumn.Name = "sbColumn";
-            this.sbColumn.Size = new System.Drawing.Size(161, 26);
-            this.sbColumn.TabIndex = 11;
-            this.sbColumn.Value = 1;
-            // 
-            // sbRow
-            // 
-            this.sbRow.Location = new System.Drawing.Point(10, 152);
-            this.sbRow.Minimum = 1;
-            this.sbRow.Name = "sbRow";
-            this.sbRow.Size = new System.Drawing.Size(161, 26);
-            this.sbRow.TabIndex = 12;
-            this.sbRow.Value = 1;
-            // 
-            // lblColumn
-            // 
-            this.lblColumn.AutoSize = true;
-            this.lblColumn.Location = new System.Drawing.Point(174, 121);
-            this.lblColumn.Name = "lblColumn";
-            this.lblColumn.Size = new System.Drawing.Size(39, 21);
-            this.lblColumn.TabIndex = 13;
-            this.lblColumn.Text = "C: 1";
-            // 
-            // lblRow
-            // 
-            this.lblRow.AutoSize = true;
-            this.lblRow.Location = new System.Drawing.Point(174, 157);
-            this.lblRow.Name = "lblRow";
-            this.lblRow.Size = new System.Drawing.Size(38, 21);
-            this.lblRow.TabIndex = 14;
-            this.lblRow.Text = "R: 1";
+            this.gbConstraints.Controls.Add(this.lblKey);
+            this.gbConstraints.Controls.Add(this.tbKey);
+            this.gbConstraints.Controls.Add(this.btnConstraints);
+            this.gbConstraints.Location = new System.Drawing.Point(711, 234);
+            this.gbConstraints.Name = "gbConstraints";
+            this.gbConstraints.Size = new System.Drawing.Size(252, 144);
+            this.gbConstraints.TabIndex = 8;
+            this.gbConstraints.TabStop = false;
+            this.gbConstraints.Text = "CONSTRAINT";
             // 
             // frmCryptor
             // 
@@ -290,14 +235,9 @@ namespace Encryptor
         private System.Windows.Forms.CheckBox cbVernom;
         private System.Windows.Forms.CheckBox cbViganere;
         private System.Windows.Forms.Button btnConstraints;
-        private System.Windows.Forms.GroupBox gbConstraints;
-        private System.Windows.Forms.Label lblRow;
-        private System.Windows.Forms.Label lblColumn;
-        private System.Windows.Forms.HScrollBar sbRow;
-        private System.Windows.Forms.HScrollBar sbColumn;
-        private System.Windows.Forms.Label lblTransposition;
-        private System.Windows.Forms.Label lblKey;
         private System.Windows.Forms.TextBox tbKey;
+        private System.Windows.Forms.Label lblKey;
+        private System.Windows.Forms.GroupBox gbConstraints;
     }
 }
 
