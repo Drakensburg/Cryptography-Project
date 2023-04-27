@@ -31,20 +31,21 @@ namespace Encryptor
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCryptor));
             this.btnExit = new System.Windows.Forms.Button();
-            this.btndecrypt = new System.Windows.Forms.Button();
+            this.btnDecrypt = new System.Windows.Forms.Button();
             this.btnEncrypt = new System.Windows.Forms.Button();
             this.btnSelect = new System.Windows.Forms.Button();
             this.tbFPath = new System.Windows.Forms.TextBox();
             this.rtbDataView = new System.Windows.Forms.RichTextBox();
             this.gbMethods = new System.Windows.Forms.GroupBox();
-            this.cbViganere = new System.Windows.Forms.CheckBox();
-            this.cbVernom = new System.Windows.Forms.CheckBox();
-            this.cbTransposition = new System.Windows.Forms.CheckBox();
             this.cbUnique = new System.Windows.Forms.CheckBox();
+            this.cbTransposition = new System.Windows.Forms.CheckBox();
+            this.cbVernom = new System.Windows.Forms.CheckBox();
+            this.cbViganere = new System.Windows.Forms.CheckBox();
             this.btnConstraints = new System.Windows.Forms.Button();
             this.tbKey = new System.Windows.Forms.TextBox();
             this.lblKey = new System.Windows.Forms.Label();
             this.gbConstraints = new System.Windows.Forms.GroupBox();
+            this.ofdFile = new System.Windows.Forms.OpenFileDialog();
             this.gbMethods.SuspendLayout();
             this.gbConstraints.SuspendLayout();
             this.SuspendLayout();
@@ -59,14 +60,15 @@ namespace Encryptor
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // btndecrypt
+            // btnDecrypt
             // 
-            this.btndecrypt.Location = new System.Drawing.Point(711, 542);
-            this.btndecrypt.Name = "btndecrypt";
-            this.btndecrypt.Size = new System.Drawing.Size(252, 50);
-            this.btndecrypt.TabIndex = 1;
-            this.btndecrypt.Text = "DECRYPT";
-            this.btndecrypt.UseVisualStyleBackColor = true;
+            this.btnDecrypt.Location = new System.Drawing.Point(711, 542);
+            this.btnDecrypt.Name = "btnDecrypt";
+            this.btnDecrypt.Size = new System.Drawing.Size(252, 50);
+            this.btnDecrypt.TabIndex = 1;
+            this.btnDecrypt.Text = "DECRYPT";
+            this.btnDecrypt.UseVisualStyleBackColor = true;
+            this.btnDecrypt.Click += new System.EventHandler(this.btnDecrypt_Click);
             // 
             // btnEncrypt
             // 
@@ -76,6 +78,7 @@ namespace Encryptor
             this.btnEncrypt.TabIndex = 2;
             this.btnEncrypt.Text = "ENCRYPT";
             this.btnEncrypt.UseVisualStyleBackColor = true;
+            this.btnEncrypt.Click += new System.EventHandler(this.btnEncrypt_Click);
             // 
             // btnSelect
             // 
@@ -86,6 +89,7 @@ namespace Encryptor
             this.btnSelect.TabIndex = 3;
             this.btnSelect.Text = "SELECT FILE";
             this.btnSelect.UseVisualStyleBackColor = false;
+            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
             // tbFPath
             // 
@@ -115,25 +119,15 @@ namespace Encryptor
             this.gbMethods.TabStop = false;
             this.gbMethods.Text = "METHODS";
             // 
-            // cbViganere
+            // cbUnique
             // 
-            this.cbViganere.AutoSize = true;
-            this.cbViganere.Location = new System.Drawing.Point(6, 59);
-            this.cbViganere.Name = "cbViganere";
-            this.cbViganere.Size = new System.Drawing.Size(116, 25);
-            this.cbViganere.TabIndex = 0;
-            this.cbViganere.Text = "VIGANERE";
-            this.cbViganere.UseVisualStyleBackColor = true;
-            // 
-            // cbVernom
-            // 
-            this.cbVernom.AutoSize = true;
-            this.cbVernom.Location = new System.Drawing.Point(6, 90);
-            this.cbVernom.Name = "cbVernom";
-            this.cbVernom.Size = new System.Drawing.Size(108, 25);
-            this.cbVernom.TabIndex = 1;
-            this.cbVernom.Text = "VERNOM";
-            this.cbVernom.UseVisualStyleBackColor = true;
+            this.cbUnique.AutoSize = true;
+            this.cbUnique.Location = new System.Drawing.Point(6, 121);
+            this.cbUnique.Name = "cbUnique";
+            this.cbUnique.Size = new System.Drawing.Size(100, 25);
+            this.cbUnique.TabIndex = 3;
+            this.cbUnique.Text = "UNIQUE";
+            this.cbUnique.UseVisualStyleBackColor = true;
             // 
             // cbTransposition
             // 
@@ -145,15 +139,25 @@ namespace Encryptor
             this.cbTransposition.Text = "TRANSPOSITION";
             this.cbTransposition.UseVisualStyleBackColor = true;
             // 
-            // cbUnique
+            // cbVernom
             // 
-            this.cbUnique.AutoSize = true;
-            this.cbUnique.Location = new System.Drawing.Point(6, 121);
-            this.cbUnique.Name = "cbUnique";
-            this.cbUnique.Size = new System.Drawing.Size(100, 25);
-            this.cbUnique.TabIndex = 3;
-            this.cbUnique.Text = "UNIQUE";
-            this.cbUnique.UseVisualStyleBackColor = true;
+            this.cbVernom.AutoSize = true;
+            this.cbVernom.Location = new System.Drawing.Point(6, 90);
+            this.cbVernom.Name = "cbVernom";
+            this.cbVernom.Size = new System.Drawing.Size(108, 25);
+            this.cbVernom.TabIndex = 1;
+            this.cbVernom.Text = "VERNOM";
+            this.cbVernom.UseVisualStyleBackColor = true;
+            // 
+            // cbViganere
+            // 
+            this.cbViganere.AutoSize = true;
+            this.cbViganere.Location = new System.Drawing.Point(6, 59);
+            this.cbViganere.Name = "cbViganere";
+            this.cbViganere.Size = new System.Drawing.Size(116, 25);
+            this.cbViganere.TabIndex = 0;
+            this.cbViganere.Text = "VIGANERE";
+            this.cbViganere.UseVisualStyleBackColor = true;
             // 
             // btnConstraints
             // 
@@ -163,6 +167,7 @@ namespace Encryptor
             this.btnConstraints.TabIndex = 7;
             this.btnConstraints.Text = "SET CONSTRAINT";
             this.btnConstraints.UseVisualStyleBackColor = true;
+            this.btnConstraints.Click += new System.EventHandler(this.btnConstraints_Click);
             // 
             // tbKey
             // 
@@ -193,6 +198,10 @@ namespace Encryptor
             this.gbConstraints.TabStop = false;
             this.gbConstraints.Text = "CONSTRAINT";
             // 
+            // ofdFile
+            // 
+            this.ofdFile.FileName = "ofdFile";
+            // 
             // frmCryptor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
@@ -205,7 +214,7 @@ namespace Encryptor
             this.Controls.Add(this.tbFPath);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.btnEncrypt);
-            this.Controls.Add(this.btndecrypt);
+            this.Controls.Add(this.btnDecrypt);
             this.Controls.Add(this.btnExit);
             this.Font = new System.Drawing.Font("Microsoft YaHei", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -224,7 +233,7 @@ namespace Encryptor
         #endregion
 
         private System.Windows.Forms.Button btnExit;
-        private System.Windows.Forms.Button btndecrypt;
+        private System.Windows.Forms.Button btnDecrypt;
         private System.Windows.Forms.Button btnEncrypt;
         private System.Windows.Forms.Button btnSelect;
         private System.Windows.Forms.TextBox tbFPath;
@@ -238,6 +247,7 @@ namespace Encryptor
         private System.Windows.Forms.TextBox tbKey;
         private System.Windows.Forms.Label lblKey;
         private System.Windows.Forms.GroupBox gbConstraints;
+        private System.Windows.Forms.OpenFileDialog ofdFile;
     }
 }
 
