@@ -16,15 +16,61 @@ namespace Encryptor
         public string sFilePath;
 
         //===Cryptography
+        //===Transposition
         static void Crypt_Transposition()
         {
             //Will encrypt data using Keyed-Transposition Cypher
         }
+        //===Transposition
 
-        static void Crypt_Viganere()
+
+        //====Viganere
+        private static int Mod(int a, int b)
         {
-            //Will encrypt data using Viganere Cypher
+            return (a % b + b) % b;
         }
+
+        private static string Crypt_Viganere(string sInput, string sKey, bool bEncipher)
+        {
+            for (int i = 0; i < sKey.Length; ++i)
+                if (!char.IsLetter(sKey[i]))
+                    return null; 
+
+            string sOutput = string.Empty;
+            int iNonAlphaCharCount = 0;
+
+            for (int i = 0; i < sInput.Length; ++i)
+            {
+                if (char.IsLetter(sInput[i]))
+                {
+                    bool bCIsUpper = char.IsUpper(sInput[i]);
+                    char offset = bCIsUpper ? 'A' : 'a';
+                    int iKeyIndex = (i - iNonAlphaCharCount) % sKey.Length;
+                    int k = (bCIsUpper ? char.ToUpper(sKey[iKeyIndex]) : char.ToLower(sKey[iKeyIndex])) - offset;
+                    k = bEncipher ? k : -k;
+                    char cCh = (char)((Mod(((sInput[i] + k) - offset), 26)) + offset);
+                    sOutput += cCh;
+                }
+                else
+                {
+                    sOutput += sInput[i];
+                    ++iNonAlphaCharCount;
+                }
+            }
+
+            return sOutput;
+        }
+
+        public static string Vig_Encipher(string sInput, string sKey)
+        {
+            return Crypt_Viganere(sInput, sKey, true);
+        }
+
+        public static string Vig_Decipher(string sInput, string sKey)
+        {
+            return Crypt_Viganere(sInput, sKey, false);
+        }
+        //====Viganere
 
         static void Crypt_Vernom()
         {
@@ -68,12 +114,12 @@ namespace Encryptor
 
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
-            //Will encrypt data using selected methods
+            //Vig_Encipher(Input, sEncKey);
         }
 
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
-            //Will decrypt data using selected methods
+            //Vig_Decipher(Input, sEncKey);
         }
         //======Actions
 
