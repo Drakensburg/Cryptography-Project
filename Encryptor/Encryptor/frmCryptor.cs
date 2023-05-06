@@ -1,12 +1,16 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
+using System.Windows.Forms;
+using Microsoft.VisualBasic;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Encryptor
 {
@@ -14,6 +18,8 @@ namespace Encryptor
     {
         public string sEncKey;
         public string sFilePath;
+        public bool bPass = false;
+        public bool bLoca = false;
 
         //===Cryptography
         //===Transposition
@@ -88,6 +94,8 @@ namespace Encryptor
         //======Actions
         private void btnSelect_Click(object sender, EventArgs e)
         {
+            bLoca = true;
+
             OpenFileDialog openFileDialogSelector = new OpenFileDialog
             {
                 InitialDirectory = @System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
@@ -104,22 +112,93 @@ namespace Encryptor
             {
                 tbFPath.Text = openFileDialogSelector.FileName;
                 sFilePath = openFileDialogSelector.FileName;
+
+                rtbDataView.AppendText("File: "+ sFilePath + " selected for cryption.\r\n\n");
+            }    
+            else
+            {
+                    bLoca = false;
             }
         }
 
         private void btnConstraints_Click(object sender, EventArgs e)
         {
             sEncKey = tbKey.Text;
+            bPass = true;
+
+            rtbDataView.AppendText("Key has been set.\r\n\n");
         }
 
         private void btnEncrypt_Click(object sender, EventArgs e)
         {
-            //Vig_Encipher(Input, sEncKey);
+            if (bLoca == true && bPass == true)
+            {
+                byte[] bytesEncrypted;
+                byte[] bFile = File.ReadAllBytes(sFilePath);
+                string sFile = System.Text.Encoding.UTF8.GetString(bFile);
+
+                if (cbViganere.Checked)
+                {
+                    bytesEncrypted = Encoding.ASCII.GetBytes(Vig_Encipher(sFile, sEncKey));
+                    File.WriteAllBytes(sFilePath + ".crypt", bytesEncrypted);
+                }
+
+                bPass = false;
+                bLoca = false;
+
+                rtbDataView.Clear();
+                rtbDataView.AppendText("File: " + sFilePath + " encrypted.\r\n\n");
+            }
+            else if (bLoca == false)
+            {
+                MessageBox.Show("PLEASE ENSURE FILE IS SELECTED");
+                bLoca = false;
+            }
+            else if (bPass == false)
+            {
+                MessageBox.Show("PLEASE ENSURE KEY IS SET");
+                bPass = false;
+            }
         }
 
         private void btnDecrypt_Click(object sender, EventArgs e)
         {
-            //Vig_Decipher(Input, sEncKey);
+            string sUpdatedFilePath = sFilePath.Remove(sFilePath.Length - 6, 6);
+            string sCheckCrypt = sFilePath.Remove(0,sFilePath.Length - 6);
+
+            if (bLoca == true && bPass == true && sCheckCrypt == ".crypt")
+            {
+                byte[] bytesDecrypted;
+                byte[] bFile = File.ReadAllBytes(sFilePath);
+                string sFile = System.Text.Encoding.UTF8.GetString(bFile);
+
+                if (cbViganere.Checked)
+                {
+                    bytesDecrypted = Encoding.ASCII.GetBytes(Vig_Decipher(sFile, sEncKey));
+                    
+                    File.WriteAllBytes(sUpdatedFilePath, bytesDecrypted);
+                }
+
+                bPass = false;
+                bLoca = false;
+
+                rtbDataView.Clear();
+                rtbDataView.AppendText("File: " + sFilePath + " decrypted.\r\n\n");
+            }
+            else if (bLoca == false)
+            {
+                MessageBox.Show("PLEASE ENSURE FILE IS SELECTED");
+                bLoca = false;
+            }
+            else if (bPass == false)
+            {
+                MessageBox.Show("PLEASE ENSURE KEY IS SET");
+                bPass = false;
+            }
+            else if (!(sCheckCrypt == ".crypt"))
+            {
+                MessageBox.Show("ONLY .CRYPT FILES CAN BE DECRYPTED");
+            }
         }
         //======Actions
 
@@ -134,6 +213,26 @@ namespace Encryptor
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void cbTransposition_CheckedChanged(object sender, EventArgs e)
+        {
+            rtbDataView.AppendText("Transposition Cryption Selected.\r\n\n");
+        }
+
+        private void cbViganere_CheckedChanged(object sender, EventArgs e)
+        {
+            rtbDataView.AppendText("Vigenere Cryption Selected.\r\n\n");
+        }
+
+        private void cbVernom_CheckedChanged(object sender, EventArgs e)
+        {
+            rtbDataView.AppendText("Vernom Cryption Selected.\r\n\n");
+        }
+
+        private void cbUnique_CheckedChanged(object sender, EventArgs e)
+        {
+            rtbDataView.AppendText("Unique Cryption Selected.\r\n\n");
         }
         //===System
     }

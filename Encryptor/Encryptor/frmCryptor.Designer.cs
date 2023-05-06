@@ -128,6 +128,7 @@ namespace Encryptor
             this.cbUnique.TabIndex = 3;
             this.cbUnique.Text = "UNIQUE";
             this.cbUnique.UseVisualStyleBackColor = true;
+            this.cbUnique.CheckedChanged += new System.EventHandler(this.cbUnique_CheckedChanged);
             // 
             // cbTransposition
             // 
@@ -138,6 +139,7 @@ namespace Encryptor
             this.cbTransposition.TabIndex = 2;
             this.cbTransposition.Text = "TRANSPOSITION";
             this.cbTransposition.UseVisualStyleBackColor = true;
+            this.cbTransposition.CheckedChanged += new System.EventHandler(this.cbTransposition_CheckedChanged);
             // 
             // cbVernom
             // 
@@ -148,6 +150,7 @@ namespace Encryptor
             this.cbVernom.TabIndex = 1;
             this.cbVernom.Text = "VERNOM";
             this.cbVernom.UseVisualStyleBackColor = true;
+            this.cbVernom.CheckedChanged += new System.EventHandler(this.cbVernom_CheckedChanged);
             // 
             // cbViganere
             // 
@@ -158,6 +161,7 @@ namespace Encryptor
             this.cbViganere.TabIndex = 0;
             this.cbViganere.Text = "VIGANERE";
             this.cbViganere.UseVisualStyleBackColor = true;
+            this.cbViganere.CheckedChanged += new System.EventHandler(this.cbViganere_CheckedChanged);
             // 
             // btnConstraints
             // 
