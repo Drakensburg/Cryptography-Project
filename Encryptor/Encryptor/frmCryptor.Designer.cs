@@ -95,7 +95,7 @@ namespace Encryptor
             // 
             this.tbFPath.Location = new System.Drawing.Point(179, 24);
             this.tbFPath.Name = "tbFPath";
-            this.tbFPath.Size = new System.Drawing.Size(784, 29);
+            this.tbFPath.Size = new System.Drawing.Size(784, 22);
             this.tbFPath.TabIndex = 4;
             // 
             // rtbDataView
@@ -105,6 +105,7 @@ namespace Encryptor
             this.rtbDataView.Size = new System.Drawing.Size(692, 579);
             this.rtbDataView.TabIndex = 5;
             this.rtbDataView.Text = "";
+            
             // 
             // gbMethods
             // 
@@ -124,7 +125,7 @@ namespace Encryptor
             this.cbUnique.AutoSize = true;
             this.cbUnique.Location = new System.Drawing.Point(6, 121);
             this.cbUnique.Name = "cbUnique";
-            this.cbUnique.Size = new System.Drawing.Size(100, 25);
+            this.cbUnique.Size = new System.Drawing.Size(69, 20);
             this.cbUnique.TabIndex = 3;
             this.cbUnique.Text = "UNIQUE";
             this.cbUnique.UseVisualStyleBackColor = true;
@@ -134,7 +135,7 @@ namespace Encryptor
             this.cbTransposition.AutoSize = true;
             this.cbTransposition.Location = new System.Drawing.Point(6, 28);
             this.cbTransposition.Name = "cbTransposition";
-            this.cbTransposition.Size = new System.Drawing.Size(165, 25);
+            this.cbTransposition.Size = new System.Drawing.Size(114, 20);
             this.cbTransposition.TabIndex = 2;
             this.cbTransposition.Text = "TRANSPOSITION";
             this.cbTransposition.UseVisualStyleBackColor = true;
@@ -144,7 +145,7 @@ namespace Encryptor
             this.cbVernom.AutoSize = true;
             this.cbVernom.Location = new System.Drawing.Point(6, 90);
             this.cbVernom.Name = "cbVernom";
-            this.cbVernom.Size = new System.Drawing.Size(108, 25);
+            this.cbVernom.Size = new System.Drawing.Size(75, 20);
             this.cbVernom.TabIndex = 1;
             this.cbVernom.Text = "VERNOM";
             this.cbVernom.UseVisualStyleBackColor = true;
@@ -154,7 +155,7 @@ namespace Encryptor
             this.cbViganere.AutoSize = true;
             this.cbViganere.Location = new System.Drawing.Point(6, 59);
             this.cbViganere.Name = "cbViganere";
-            this.cbViganere.Size = new System.Drawing.Size(116, 25);
+            this.cbViganere.Size = new System.Drawing.Size(80, 20);
             this.cbViganere.TabIndex = 0;
             this.cbViganere.Text = "VIGANERE";
             this.cbViganere.UseVisualStyleBackColor = true;
@@ -173,7 +174,7 @@ namespace Encryptor
             // 
             this.tbKey.Location = new System.Drawing.Point(6, 49);
             this.tbKey.Name = "tbKey";
-            this.tbKey.Size = new System.Drawing.Size(240, 29);
+            this.tbKey.Size = new System.Drawing.Size(240, 22);
             this.tbKey.TabIndex = 8;
             this.tbKey.Text = "EncryptionKey";
             // 
@@ -182,7 +183,7 @@ namespace Encryptor
             this.lblKey.AutoSize = true;
             this.lblKey.Location = new System.Drawing.Point(6, 25);
             this.lblKey.Name = "lblKey";
-            this.lblKey.Size = new System.Drawing.Size(39, 21);
+            this.lblKey.Size = new System.Drawing.Size(27, 16);
             this.lblKey.TabIndex = 9;
             this.lblKey.Text = "KEY";
             // 
@@ -204,7 +205,7 @@ namespace Encryptor
             // 
             // frmCryptor
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDark;
             this.ClientSize = new System.Drawing.Size(977, 665);

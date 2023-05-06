@@ -8,3 +8,14 @@ C:\Users\Tjaar\OneDrive\Documents\GitHub\Cryptography-Project\Encryptor\Encrypto
 C:\Users\Tjaar\OneDrive\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.csproj.CoreCompileInputs.cache
 C:\Users\Tjaar\OneDrive\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.exe
 C:\Users\Tjaar\OneDrive\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.pdb
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\bin\Debug\Encryptor.exe.config
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\bin\Debug\Encryptor.exe
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\bin\Debug\Encryptor.pdb
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.csproj.AssemblyReference.cache
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.csproj.SuggestedBindingRedirects.cache
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.frmCryptor.resources
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.Properties.Resources.resources
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.csproj.GenerateResource.cache
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.csproj.CoreCompileInputs.cache
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.exe
+C:\Users\Stiaan\Documents\GitHub\Cryptography-Project\Encryptor\Encryptor\obj\Debug\Encryptor.pdb
