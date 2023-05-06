@@ -45,6 +45,9 @@ namespace Encryptor
             this.tbKey = new System.Windows.Forms.TextBox();
             this.lblKey = new System.Windows.Forms.Label();
             this.gbConstraints = new System.Windows.Forms.GroupBox();
+            this.cbMkKey = new System.Windows.Forms.CheckBox();
+            this.tbKeyPath = new System.Windows.Forms.TextBox();
+            this.btnKeySelect = new System.Windows.Forms.Button();
             this.ofdFile = new System.Windows.Forms.OpenFileDialog();
             this.gbMethods.SuspendLayout();
             this.gbConstraints.SuspendLayout();
@@ -100,12 +103,12 @@ namespace Encryptor
             // 
             // rtbDataView
             // 
-            this.rtbDataView.Location = new System.Drawing.Point(13, 69);
+            this.rtbDataView.Location = new System.Drawing.Point(12, 69);
             this.rtbDataView.Name = "rtbDataView";
             this.rtbDataView.Size = new System.Drawing.Size(692, 579);
             this.rtbDataView.TabIndex = 5;
             this.rtbDataView.Text = "";
-            
+            this.rtbDataView.TextChanged += new System.EventHandler(this.rtbDataView_TextChanged);
             // 
             // gbMethods
             // 
@@ -189,15 +192,45 @@ namespace Encryptor
             // 
             // gbConstraints
             // 
+            this.gbConstraints.Controls.Add(this.cbMkKey);
+            this.gbConstraints.Controls.Add(this.tbKeyPath);
+            this.gbConstraints.Controls.Add(this.btnKeySelect);
             this.gbConstraints.Controls.Add(this.lblKey);
             this.gbConstraints.Controls.Add(this.tbKey);
             this.gbConstraints.Controls.Add(this.btnConstraints);
             this.gbConstraints.Location = new System.Drawing.Point(711, 234);
             this.gbConstraints.Name = "gbConstraints";
-            this.gbConstraints.Size = new System.Drawing.Size(252, 144);
+            this.gbConstraints.Size = new System.Drawing.Size(252, 232);
             this.gbConstraints.TabIndex = 8;
             this.gbConstraints.TabStop = false;
             this.gbConstraints.Text = "CONSTRAINT";
+            // 
+            // cbMkKey
+            // 
+            this.cbMkKey.AutoSize = true;
+            this.cbMkKey.Location = new System.Drawing.Point(9, 140);
+            this.cbMkKey.Name = "cbMkKey";
+            this.cbMkKey.Size = new System.Drawing.Size(113, 20);
+            this.cbMkKey.TabIndex = 4;
+            this.cbMkKey.Text = "CREATE KEY FILE";
+            this.cbMkKey.UseVisualStyleBackColor = true;
+            this.cbMkKey.CheckedChanged += new System.EventHandler(this.cbMkKey_CheckedChanged);
+            // 
+            // tbKeyPath
+            // 
+            this.tbKeyPath.Location = new System.Drawing.Point(6, 196);
+            this.tbKeyPath.Name = "tbKeyPath";
+            this.tbKeyPath.Size = new System.Drawing.Size(240, 22);
+            this.tbKeyPath.TabIndex = 11;
+            // 
+            // btnKeySelect
+            // 
+            this.btnKeySelect.Location = new System.Drawing.Point(6, 162);
+            this.btnKeySelect.Name = "btnKeySelect";
+            this.btnKeySelect.Size = new System.Drawing.Size(240, 28);
+            this.btnKeySelect.TabIndex = 10;
+            this.btnKeySelect.Text = "SELECT KEY FILE";
+            this.btnKeySelect.UseVisualStyleBackColor = true;
             // 
             // ofdFile
             // 
@@ -249,6 +282,9 @@ namespace Encryptor
         private System.Windows.Forms.Label lblKey;
         private System.Windows.Forms.GroupBox gbConstraints;
         private System.Windows.Forms.OpenFileDialog ofdFile;
+        private System.Windows.Forms.CheckBox cbMkKey;
+        private System.Windows.Forms.TextBox tbKeyPath;
+        private System.Windows.Forms.Button btnKeySelect;
     }
 }
 
