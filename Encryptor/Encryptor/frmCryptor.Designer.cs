@@ -231,6 +231,7 @@ namespace Encryptor
             this.btnKeySelect.TabIndex = 10;
             this.btnKeySelect.Text = "SELECT KEY FILE";
             this.btnKeySelect.UseVisualStyleBackColor = true;
+            this.btnKeySelect.Click += new System.EventHandler(this.btnKeySelect_Click);
             // 
             // ofdFile
             // 

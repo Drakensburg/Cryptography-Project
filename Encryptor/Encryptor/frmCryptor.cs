@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -41,47 +42,39 @@ namespace Encryptor
             {
                 //file
                 string path = tbFPath.Text;
-                byte[] originalBytes;
-                using (FileStream fs = new FileStream(path, FileMode.Open))
+                string KeyFilePath = "";
+                byte[] inputBytes = File.ReadAllBytes(path);
+                //make keyfile
+                if (cbMkKey.Checked==true)
                 {
-                    originalBytes = new byte[fs.Length];
-                    fs.Read(originalBytes, 0, originalBytes.Length);
-                    fs.Close();
-                }
-
-                byte[] keyBytes = new byte[originalBytes.Length];
-                Random random = new Random();
-                random.NextBytes(keyBytes);
-                if (cbMkKey.Checked)
-                {
-                    // Write the key to the file:
-                    using (FileStream fs = new FileStream(sKeyFilePath, FileMode.Create))
+                    //making key
+                    KeyFilePath = tbKeyPath.Text;
+                    byte[] keyBytes = new byte[inputBytes.Length];
+                    using (var rng = new RNGCryptoServiceProvider())
                     {
-                        fs.Write(keyBytes, 0, keyBytes.Length);
-                        fs.Close();
+                        rng.GetBytes(keyBytes);
                     }
 
-                }
-                // Check arguments:
-                byte[] outBytes = new byte[originalBytes.Length];
-                if ((originalBytes.Length != keyBytes.Length) ||
-                    (keyBytes.Length != outBytes.Length))
-                    throw new ArgumentException("Byte-array are not of same length");
+                    File.WriteAllBytes(KeyFilePath, keyBytes);
+                    //making key
+                    keyBytes = File.ReadAllBytes(KeyFilePath);
 
-                // Encrypt/decrypt by XOR:
-                for (int i = 0; i < originalBytes.Length; i++)
-                {
-                    outBytes[i] = (byte)(originalBytes[i] ^ keyBytes[i]);
+                    byte[] encryptedBytes = new byte[inputBytes.Length];
 
-
-                    using (FileStream fs = new FileStream(path, FileMode.Open))
+                    for (int i = 0; i < inputBytes.Length; i++)
                     {
-                        originalBytes = new byte[fs.Length];
-                        fs.Write(originalBytes, 0, originalBytes.Length);
-                        fs.Close();
+                        encryptedBytes[i] = (byte)(inputBytes[i] ^ keyBytes[i % keyBytes.Length]);
                     }
+                    File.WriteAllBytes(path, encryptedBytes);
+                    MessageBox.Show("File is encrypted!");
                 }
-                MessageBox.Show("File is encrypted!");
+                else if (!cbMkKey.Checked)
+                {
+
+                }
+                
+            
+                
             }
             else if (rtbDataView.Text != "")
             {
@@ -122,7 +115,28 @@ namespace Encryptor
         }
         public void Decrypt_Vernom()
         {
-            if(rtbDataView.Text != "") {
+            //file
+            if(rtbDataView.Text == "")
+            {
+
+                string path = tbFPath.Text;
+                string KeyFilePath = tbKeyPath.Text;
+                byte[] inputBytes = File.ReadAllBytes(path);
+                byte[] keyBytes = File.ReadAllBytes(KeyFilePath);
+
+                byte[] decryptedBytes = new byte[inputBytes.Length];
+
+                for (int i = 0; i < inputBytes.Length; i++)
+                {
+                    decryptedBytes[i] = (byte)(inputBytes[i] ^ keyBytes[i % keyBytes.Length]);
+                }
+
+                File.WriteAllBytes(path, decryptedBytes);
+                MessageBox.Show("Message decrypted");
+            }
+            //text
+            else if(rtbDataView.Text != "") 
+            {
                 // Convert the ciphertext and key to byte arrays
                 string ciphertext = rtbDataView.Text;
                 byte[] ciphertextBytes = new byte[ciphertext.Length];
@@ -253,6 +267,27 @@ namespace Encryptor
             else
             {
                 btnKeySelect.Enabled = true;;
+            }
+        }
+
+        private void btnKeySelect_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialogSelector = new OpenFileDialog
+            {
+                InitialDirectory = @System.Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Title = "Select File",
+
+                CheckFileExists = true,
+                CheckPathExists = true,
+                RestoreDirectory = true,
+                ReadOnlyChecked = true,
+                ShowReadOnly = true
+            };
+
+            if (openFileDialogSelector.ShowDialog() == DialogResult.OK)
+            {
+                tbFPath.Text = openFileDialogSelector.FileName;
+                sKeyFilePath = openFileDialogSelector.FileName;
             }
         }
 
