@@ -41,6 +41,11 @@ namespace Encryptor
             if (rtbDataView.Text == "")
             {
                 //file
+                if (tbFPath.Text == "")
+                {
+                    MessageBox.Show("Please select a file to encrypt!");
+                    return;
+                }
                 string path = tbFPath.Text;
                 string KeyFilePath = "";
                 byte[] inputBytes = File.ReadAllBytes(path);
@@ -57,6 +62,8 @@ namespace Encryptor
 
                     File.WriteAllBytes(KeyFilePath, keyBytes);
                     //making key
+
+
                     keyBytes = File.ReadAllBytes(KeyFilePath);
 
                     byte[] encryptedBytes = new byte[inputBytes.Length];
@@ -70,7 +77,24 @@ namespace Encryptor
                 }
                 else if (!cbMkKey.Checked)
                 {
+                    if (tbKeyPath.Text == "")
+                    {
+                        MessageBox.Show("Please select a key file for encryption!");
+                        return;
+                    }
+                    KeyFilePath = sKeyFilePath;
+                    byte[] keyBytes = new byte[inputBytes.Length];
 
+                    keyBytes = File.ReadAllBytes(KeyFilePath);
+
+                    byte[] encryptedBytes = new byte[inputBytes.Length];
+
+                    for (int i = 0; i < inputBytes.Length; i++)
+                    {
+                        encryptedBytes[i] = (byte)(inputBytes[i] ^ keyBytes[i % keyBytes.Length]);
+                    }
+                    File.WriteAllBytes(path, encryptedBytes);
+                    MessageBox.Show("File is encrypted!");
                 }
                 
             
@@ -206,6 +230,10 @@ namespace Encryptor
             {
                 Encrypt_Vernom();
             }
+            else
+            {
+                MessageBox.Show("Please select an encryption method!");
+            }
         }
 
         private void btnDecrypt_Click(object sender, EventArgs e)
@@ -214,6 +242,10 @@ namespace Encryptor
             if (cbVernom.Checked)
             {
                 Decrypt_Vernom();
+            }
+            else
+            {
+                MessageBox.Show("Please select an encryption method!");
             }
         }
         //======Actions
@@ -286,8 +318,9 @@ namespace Encryptor
 
             if (openFileDialogSelector.ShowDialog() == DialogResult.OK)
             {
-                tbFPath.Text = openFileDialogSelector.FileName;
+
                 sKeyFilePath = openFileDialogSelector.FileName;
+                tbKeyPath.Text = openFileDialogSelector.FileName;
             }
         }
 
