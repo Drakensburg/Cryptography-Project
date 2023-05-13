@@ -21,16 +21,17 @@ namespace Encryptor
         public bool bPass = false;
         public bool bLoca = false;
 
+
         //======Cryptography
         //====Transposition
         private static int[] GetShiftIndexes(string sKey)
         {
-            int iKeyLength = sKey.Length;
-            int[] iIndexes = new int[iKeyLength];
+            int keyLength = sKey.Length;
+            int[] indexes = new int[keyLength];
             List<KeyValuePair<int, char>> sortedKey = new List<KeyValuePair<int, char>>();
             int i;
 
-            for (i = 0; i < iKeyLength; ++i)
+            for (i = 0; i < keyLength; ++i)
                 sortedKey.Add(new KeyValuePair<int, char>(i, sKey[i]));
 
             sortedKey.Sort(
@@ -39,15 +40,18 @@ namespace Encryptor
                 }
             );
 
-            for (i = 0; i < iKeyLength; ++i)
-                iIndexes[sortedKey[i].Key] = i;
+            for (i = 0; i < keyLength; ++i)
+                indexes[sortedKey[i].Key] = i;
 
-            return iIndexes;
+            return indexes;
         }
 
-        public static string Tran_Encipher(string sInput, string sKey, char cPadChar)
+        public static Byte[] Tran_Encipher(Byte[] bInput, string sKey)
         {
-            sInput = (sInput.Length % sKey.Length == 0) ? sInput : sInput.PadRight(sInput.Length - (sInput.Length % sKey.Length) + sKey.Length, cPadChar);
+            string sInput = Encoding.Default.GetString(bInput);
+            char padChar = ';';
+
+            sInput = (sInput.Length % sKey.Length == 0) ? sInput : sInput.PadRight(sInput.Length - (sInput.Length % sKey.Length) + sKey.Length, padChar);
             StringBuilder output = new StringBuilder();
             int totalChars = sInput.Length;
             int totalColumns = sKey.Length;
@@ -80,11 +84,13 @@ namespace Encryptor
                 output.Append(sortedColChars[currentRow, currentColumn]);
             }
 
-            return output.ToString();
+            return Encoding.Default.GetBytes(output.ToString());
         }
 
-        public static string Tran_Decipher(string sInput, string sKey)
+        public static Byte[] Tran_Decipher(Byte[] bInput, string sKey)
         {
+            string sInput = Encoding.Default.GetString(bInput);
+
             StringBuilder output = new StringBuilder();
             int totalChars = sInput.Length;
             int totalColumns = (int)Math.Ceiling((double)totalChars / sKey.Length);
@@ -117,58 +123,12 @@ namespace Encryptor
                 output.Append(unsortedColChars[currentRow, currentColumn]);
             }
 
-            return output.ToString();
+            return Encoding.Default.GetBytes(output.ToString());
         }
         //====Transposition
 
 
         //====Viganere
-        /*private static int Mod(int a, int b)
-        {
-            return (a % b + b) % b;
-        }
-
-        private static string Crypt_Viganere(string sInput, string sKey, bool bEncipher)
-        {
-            for (int i = 0; i < sKey.Length; ++i)
-                if (!char.IsLetter(sKey[i]))
-                    return null; 
-
-            string sOutput = string.Empty;
-            int iNonAlphaCharCount = 0;
-
-            for (int i = 0; i < sInput.Length; ++i)
-            {
-                if (char.IsLetter(sInput[i]))
-                {
-                    bool bCIsUpper = char.IsUpper(sInput[i]);
-                    char offset = bCIsUpper ? 'A' : 'a';
-                    int iKeyIndex = (i - iNonAlphaCharCount) % sKey.Length;
-                    int k = (bCIsUpper ? char.ToUpper(sKey[iKeyIndex]) : char.ToLower(sKey[iKeyIndex])) - offset;
-                    k = bEncipher ? k : -k;
-                    char cCh = (char)((Mod(((sInput[i] + k) - offset), 26)) + offset);
-                    sOutput += cCh;
-                }
-                else
-                {
-                    sOutput += sInput[i];
-                    ++iNonAlphaCharCount;
-                }
-            }
-
-            return sOutput;
-        }
-
-        public static string Vig_Encipher(string sInput, string sKey)
-        {
-            return Crypt_Viganere(sInput, sKey, true);
-        }
-
-        public static string Vig_Decipher(string sInput, string sKey)
-        {
-            return Crypt_Viganere(sInput, sKey, false);
-        }*/
-
         public static Byte[] Vig_Encipher(Byte[] bPlainText, string sKey)
         {
 
@@ -275,31 +235,28 @@ namespace Encryptor
             {
                 byte[] bytesEncrypted = Encoding.ASCII.GetBytes("empty");
                 byte[] bFile = File.ReadAllBytes(sFilePath);
-                string sFile = System.Text.Encoding.UTF8.GetString(bFile);
+                string sFile = Convert.ToBase64String(bFile);
 
                 if (cbTransposition.Checked)
                 {
-                    bytesEncrypted = Encoding.ASCII.GetBytes(Tran_Encipher(sFile, sEncKey, '-'));
-                    sFile = System.Text.Encoding.UTF8.GetString(bytesEncrypted);
+                    bytesEncrypted = Tran_Encipher(bFile, sEncKey);
+                    bFile = bytesEncrypted;
                 }
 
                 if (cbViganere.Checked)
                 {
-
                     bytesEncrypted = Vig_Encipher(bFile, sEncKey);
-                    
+                    bFile = bytesEncrypted;
                 }
 
                 if (cbVernom.Checked)
                 {
-                    //bytesEncrypted = Encoding.ASCII.GetBytes( );
-                    sFile = System.Text.Encoding.UTF8.GetString(bytesEncrypted);
+                    //
                 }
 
                 if (cbUnique.Checked)
                 {
-                    //bytesEncrypted = Encoding.ASCII.GetBytes( );
-                    sFile = System.Text.Encoding.UTF8.GetString(bytesEncrypted);
+                    //
                 }
 
                 File.WriteAllBytes(sFilePath + ".crypt", bytesEncrypted);
@@ -337,30 +294,27 @@ namespace Encryptor
             {
                 byte[] bytesDecrypted = Encoding.ASCII.GetBytes("empty");
                 byte[] bFile = File.ReadAllBytes(sFilePath);
-                string sFile = System.Text.Encoding.UTF8.GetString(bFile);
+                string sFile = Convert.ToBase64String(bFile);
 
                 if (cbUnique.Checked)
                 {
-                    //bytesDecrypted = Encoding.ASCII.GetBytes( );
-                    sFile = System.Text.Encoding.UTF8.GetString(bytesDecrypted);
+                    //
                 }
 
                 if (cbVernom.Checked)
                 {
-                    //bytesDecrypted = Encoding.ASCII.GetBytes( );
-                    sFile = System.Text.Encoding.UTF8.GetString(bytesDecrypted);
+                    //
                 }
 
                 if (cbViganere.Checked)
                 {
                     bytesDecrypted = Vig_Decipher(bFile, sEncKey);
-                    
+                    bFile = bytesDecrypted;
                 }
 
                 if (cbTransposition.Checked)
                 {
-                    bytesDecrypted = Encoding.ASCII.GetBytes(Tran_Decipher(sFile, sEncKey));
-                    sFile = System.Text.Encoding.UTF8.GetString(bytesDecrypted);
+                    bytesDecrypted = Tran_Decipher(bFile, sEncKey);
                 }
 
                 File.WriteAllBytes(sUpdatedFilePath, bytesDecrypted);
