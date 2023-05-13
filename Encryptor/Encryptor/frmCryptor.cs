@@ -220,12 +220,18 @@ namespace Encryptor
                 
             }
 
-            // Convert the ciphertext to a printable string
-             /*string ciphertext = "";
-            foreach (byte b in ciphertextBytes)
+            for (int i = 0; i < ciphertextBytes.Length; i++)
             {
-                ciphertext += (char)(b + 32); // Add 32 to make the character printable
-            }*/
+
+                ciphertextBytes[i] = (byte)((ciphertextBytes[i] + iCeas));
+            }
+
+            // Convert the ciphertext to a printable string
+            /*string ciphertext = "";
+           foreach (byte b in ciphertextBytes)
+           {
+               ciphertext += (char)(b + 32); // Add 32 to make the character printable
+           }*/
             rtbDataView.Text = Convert.ToBase64String(ciphertextBytes);
 
             MessageBox.Show("Message encrypted");
@@ -242,9 +248,21 @@ namespace Encryptor
             string cText = rtbDataView.Text;
             byte[] ciphertextBytes = Convert.FromBase64String(cText);
             byte[] plaintextBytes = new byte[ciphertextBytes.Length];
+            byte[] ceasarBytes = new byte[ciphertextBytes.Length];
+           
             //text
-       
 
+            for (int i = 0; i < ciphertextBytes.Length; i++)
+            {
+                byte b = ciphertextBytes[i];
+                int temp = b - iCeas;
+                if (temp < 0)
+                {
+                    temp += 256;
+                }
+                ciphertextBytes[i] = (byte)temp;
+                
+            }
 
             for (int i = 0; i < ciphertextBytes.Length; i++)
             {
