@@ -123,7 +123,7 @@ namespace Encryptor
 
 
         //====Viganere
-        private static int Mod(int a, int b)
+        /*private static int Mod(int a, int b)
         {
             return (a % b + b) % b;
         }
@@ -167,6 +167,47 @@ namespace Encryptor
         public static string Vig_Decipher(string sInput, string sKey)
         {
             return Crypt_Viganere(sInput, sKey, false);
+        }*/
+
+        public static Byte[] Vig_Encipher(Byte[] bPlainText, string sKey)
+        {
+
+            Byte[] result = new Byte[bPlainText.Length];
+
+            sKey = sKey.Trim().ToUpper();
+
+            int keyIndex = 0;
+            int keylength = sKey.Length;
+
+            for (int i = 0; i < bPlainText.Length; i++)
+            {
+                keyIndex = keyIndex % keylength;
+                int shift = (int)sKey[keyIndex] - 65;
+                result[i] = (byte)(((int)bPlainText[i] + shift) % 256);
+                keyIndex++;
+            }
+
+            return result;
+        }
+
+        public static Byte[] Vig_Decipher(Byte[] bCipherText, string sKey)
+        {
+            Byte[] result = new Byte[bCipherText.Length];
+
+            sKey = sKey.Trim().ToUpper();
+
+            int keyIndex = 0;
+            int keylength = sKey.Length;
+
+            for (int i = 0; i < bCipherText.Length; i++)
+            {
+                keyIndex = keyIndex % keylength;
+                int shift = (int)sKey[keyIndex] - 65;
+                result[i] = (byte)(((int)bCipherText[i] + 256 - shift) % 256);
+                keyIndex++;
+            }
+
+            return result;
         }
         //====Viganere
 
@@ -244,8 +285,9 @@ namespace Encryptor
 
                 if (cbViganere.Checked)
                 {
-                    bytesEncrypted = Encoding.ASCII.GetBytes(Vig_Encipher(sFile, sEncKey));
-                    sFile = System.Text.Encoding.UTF8.GetString(bytesEncrypted);
+
+                    bytesEncrypted = Vig_Encipher(bFile, sEncKey);
+                    
                 }
 
                 if (cbVernom.Checked)
@@ -311,8 +353,8 @@ namespace Encryptor
 
                 if (cbViganere.Checked)
                 {
-                    bytesDecrypted = Encoding.ASCII.GetBytes(Vig_Decipher(sFile, sEncKey));
-                    sFile = System.Text.Encoding.UTF8.GetString(bytesDecrypted);
+                    bytesDecrypted = Vig_Decipher(bFile, sEncKey);
+                    
                 }
 
                 if (cbTransposition.Checked)
