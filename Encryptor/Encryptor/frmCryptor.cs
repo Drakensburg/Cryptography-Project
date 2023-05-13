@@ -188,9 +188,71 @@ namespace Encryptor
             }
         }
 
-        static void Crypt_Unique()
+        public void Encrypt_Unique()
         {
             //Will encrypt data using Homebrew Cypher
+
+
+
+
+      
+
+        // encrypts a byte array using modular addition and subtraction
+       
+            
+        
+
+        //text
+            sEncKey = tbKey.Text;
+            string[] key =sEncKey.Split('-');
+            byte iAdd = (byte) int.Parse(key[0]);
+            int iCeas = (byte)int.Parse(key[1]);
+            string pText = rtbDataView.Text;
+            // Convert the plaintext and key to byte arrays
+            byte[] plaintextBytes = System.Text.Encoding.UTF8.GetBytes(pText);
+            
+
+            // Perform the encryption using modular 
+            byte[] ciphertextBytes = new byte[plaintextBytes.Length];
+            for (int i = 0; i < plaintextBytes.Length; i++)
+            {
+                ciphertextBytes[i] = (byte)((plaintextBytes[i] + iAdd) % 256);
+                
+            }
+
+            // Convert the ciphertext to a printable string
+             /*string ciphertext = "";
+            foreach (byte b in ciphertextBytes)
+            {
+                ciphertext += (char)(b + 32); // Add 32 to make the character printable
+            }*/
+            rtbDataView.Text = Convert.ToBase64String(ciphertextBytes);
+
+            MessageBox.Show("Message encrypted");
+        }
+
+
+        public void Decrypt_Unique()
+        {
+
+            sEncKey = tbKey.Text;
+            string[] key = sEncKey.Split('-');
+            byte iAdd = (byte)int.Parse(key[0]);
+            int iCeas = (byte)int.Parse(key[1]);
+            string cText = rtbDataView.Text;
+            byte[] ciphertextBytes = Convert.FromBase64String(cText);
+            byte[] plaintextBytes = new byte[ciphertextBytes.Length];
+            //text
+       
+
+
+            for (int i = 0; i < ciphertextBytes.Length; i++)
+            {
+                plaintextBytes[i] = (byte)((ciphertextBytes[i] + 256 - iAdd )  % 256);
+                
+            }
+            rtbDataView.Text = Encoding.UTF8.GetString(plaintextBytes);
+            MessageBox.Show("Message decrypted");
         }
         //===Cryptography
 
@@ -230,6 +292,10 @@ namespace Encryptor
             {
                 Encrypt_Vernom();
             }
+            else if (cbUnique.Checked)
+            {
+                Encrypt_Unique();
+            }
             else
             {
                 MessageBox.Show("Please select an encryption method!");
@@ -242,6 +308,10 @@ namespace Encryptor
             if (cbVernom.Checked)
             {
                 Decrypt_Vernom();
+            }
+            else if (cbUnique.Checked)
+            {
+                Decrypt_Unique();
             }
             else
             {
