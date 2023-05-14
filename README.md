@@ -4,7 +4,7 @@ The encryption and decryption program you seek is an all-inclusive solution that
 The Vernam cipher is a one-time pad encryption method that produces ciphertext using a randomly generated key of the same length as the plaintext. This method guarantees absolute privacy because the key is never used again.<br />
 ### VIGENERE
 The Vigenere cipher is a polyalphabetic substitution algorithm that encrypts plaintext with a keyword. Each character in the plaintext is displaced by the letter that corresponds to the corresponding letter in the keyword.<br />
-###TRANSPOSITION
+### TRANSPOSITION
 The Transposition cipher is a permutation-based encryption algorithm that reorders the plaintext characters to create the ciphertext.<br />
 ### UNIQUE
 The program also includes a one-of-a-kind encryption technique that incorporates the Caeser cipher and modulus funcvtions.<br />
@@ -15,14 +15,14 @@ In conclusion, the encryption and decryption program is a comprehensive data sec
 
 # CODERS
 ## HEIKI PELSER - 34588353
-0) GUI AND MERGE 		- COMPLETED <br />
-0) VIGENERE CIPHER 		- COMPLETED <br />
-0) TRANSPOSITION CIPHER - COMPLETED <br />
+1) GUI AND MERGE 		    - COMPLETED <br />
+2) VIGENERE CIPHER 		  - COMPLETED <br />
+3) TRANSPOSITION CIPHER - COMPLETED <br />
 
 ## STIAAN KLEINHANS - 34484612
-0) DEBUGGING			- COMPLETED <br />
-0) VERNAM CIPHER		- COMPLETED <br />
-0) UNIQUE CIPHER		- COMPLETED <br />
+1) DEBUGGING			      - COMPLETED <br />
+2) VERNAM CIPHER		    - COMPLETED <br />
+3) UNIQUE CIPHER		    - COMPLETED <br />
 
 ## COMBINED EFFORT
-0) DOCUMENTATION		- INCOMPLETE <br />
+1) DOCUMENTATION		    - INCOMPLETE <br />
