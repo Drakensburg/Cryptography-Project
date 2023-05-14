@@ -191,86 +191,134 @@ namespace Encryptor
         public void Encrypt_Unique()
         {
             //Will encrypt data using Homebrew Cypher
-
-
-
-
-      
-
-        // encrypts a byte array using modular addition and subtraction
-       
-            
-        
-
-        //text
-            sEncKey = tbKey.Text;
-            string[] key =sEncKey.Split('-');
-            byte iAdd = (byte) int.Parse(key[0]);
-            int iCeas = (byte)int.Parse(key[1]);
-            string pText = rtbDataView.Text;
-            // Convert the plaintext and key to byte arrays
-            byte[] plaintextBytes = System.Text.Encoding.UTF8.GetBytes(pText);
-            
-
-            // Perform the encryption using modular 
-            byte[] ciphertextBytes = new byte[plaintextBytes.Length];
-            for (int i = 0; i < plaintextBytes.Length; i++)
+            if(rtbDataView.Text == "")
             {
-                ciphertextBytes[i] = (byte)((plaintextBytes[i] + iAdd) % 256);
-                
-            }
+                //file
+                if (tbFPath.Text == "")
+                {
+                    MessageBox.Show("Please select a file to encrypt!");
+                    return;
+                }
+                string path = tbFPath.Text;
+                byte[] inputBytes = File.ReadAllBytes(path);
+                sEncKey = tbKey.Text;
+                string[] key = sEncKey.Split('-');
+                byte iAdd = (byte)int.Parse(key[0]);
+                int iCeas = (byte)int.Parse(key[1]);
 
-            for (int i = 0; i < ciphertextBytes.Length; i++)
+                byte[] ciphertextBytes = new byte[inputBytes.Length];
+                for (int i = 0; i < inputBytes.Length; i++)
+                {
+                    ciphertextBytes[i] = (byte)((inputBytes[i] + iAdd) % 256);
+                }
+
+                for (int i = 0; i < ciphertextBytes.Length; i++)
+                {
+                    ciphertextBytes[i] = (byte)((ciphertextBytes[i] + iCeas));
+                }
+                File.WriteAllBytes(path, ciphertextBytes);
+                MessageBox.Show("File is encrypted");
+            }
+            else if (rtbDataView.Text != "")
             {
+                //text
+                sEncKey = tbKey.Text;
+                string[] key = sEncKey.Split('-');
+                byte iAdd = (byte)int.Parse(key[0]);
+                int iCeas = (byte)int.Parse(key[1]);
+                string pText = rtbDataView.Text;
+                // Convert the plaintext and key to byte arrays
+                byte[] plaintextBytes = System.Text.Encoding.UTF8.GetBytes(pText);
 
-                ciphertextBytes[i] = (byte)((ciphertextBytes[i] + iCeas));
+
+                // Perform the encryption using modular 
+                byte[] ciphertextBytes = new byte[plaintextBytes.Length];
+                for (int i = 0; i < plaintextBytes.Length; i++)
+                {
+                    ciphertextBytes[i] = (byte)((plaintextBytes[i] + iAdd) % 256);
+
+                }
+
+                for (int i = 0; i < ciphertextBytes.Length; i++)
+                {
+
+                    ciphertextBytes[i] = (byte)((ciphertextBytes[i] + iCeas));
+                }
+                rtbDataView.Text = Convert.ToBase64String(ciphertextBytes);
+                MessageBox.Show("Message encrypted");
             }
-
-            // Convert the ciphertext to a printable string
-            /*string ciphertext = "";
-           foreach (byte b in ciphertextBytes)
-           {
-               ciphertext += (char)(b + 32); // Add 32 to make the character printable
-           }*/
-            rtbDataView.Text = Convert.ToBase64String(ciphertextBytes);
-
-            MessageBox.Show("Message encrypted");
         }
+           
 
 
         public void Decrypt_Unique()
         {
-
-            sEncKey = tbKey.Text;
-            string[] key = sEncKey.Split('-');
-            byte iAdd = (byte)int.Parse(key[0]);
-            int iCeas = (byte)int.Parse(key[1]);
-            string cText = rtbDataView.Text;
-            byte[] ciphertextBytes = Convert.FromBase64String(cText);
-            byte[] plaintextBytes = new byte[ciphertextBytes.Length];
-            byte[] ceasarBytes = new byte[ciphertextBytes.Length];
-           
-            //text
-
-            for (int i = 0; i < ciphertextBytes.Length; i++)
+            if (rtbDataView.Text == "")
             {
-                byte b = ciphertextBytes[i];
-                int temp = b - iCeas;
-                if (temp < 0)
+                if (tbFPath.Text == "")
                 {
-                    temp += 256;
+                    MessageBox.Show("Please select a file to encrypt!");
+                    return;
                 }
-                ciphertextBytes[i] = (byte)temp;
-                
-            }
+                string path = tbFPath.Text;
+                byte[] inputBytes = File.ReadAllBytes(path);
+                sEncKey = tbKey.Text;
+                string[] key = sEncKey.Split('-');
+                byte iAdd = (byte)int.Parse(key[0]);
+                int iCeas = (byte)int.Parse(key[1]);
+                byte[] plaintextBytes = new byte[inputBytes.Length];
 
-            for (int i = 0; i < ciphertextBytes.Length; i++)
-            {
-                plaintextBytes[i] = (byte)((ciphertextBytes[i] + 256 - iAdd )  % 256);
-                
+                for (int i = 0; i < inputBytes.Length; i++)
+                {
+                    byte b = inputBytes[i];
+                    int temp = b - iCeas;
+                    if (temp < 0)
+                    {
+                        temp += 256;
+                    }
+                    inputBytes[i] = (byte)temp;
+                }
+
+                for (int i = 0; i < inputBytes.Length; i++)
+                {
+                    plaintextBytes[i] = (byte)((inputBytes[i] + 256 - iAdd) % 256);
+
+                }
+                File.WriteAllBytes(path, plaintextBytes);
+                MessageBox.Show("File is decrypted");
+
             }
-            rtbDataView.Text = Encoding.UTF8.GetString(plaintextBytes);
-            MessageBox.Show("Message decrypted");
+            else if (rtbDataView.Text != "")
+            {
+                //text
+                sEncKey = tbKey.Text;
+                string[] key = sEncKey.Split('-');
+                byte iAdd = (byte)int.Parse(key[0]);
+                int iCeas = (byte)int.Parse(key[1]);
+                string cText = rtbDataView.Text;
+                byte[] ciphertextBytes = Convert.FromBase64String(cText);
+                byte[] plaintextBytes = new byte[ciphertextBytes.Length];
+                byte[] ceasarBytes = new byte[ciphertextBytes.Length];
+
+                for (int i = 0; i < ciphertextBytes.Length; i++)
+                {
+                    byte b = ciphertextBytes[i];
+                    int temp = b - iCeas;
+                    if (temp < 0)
+                    {
+                        temp += 256;
+                    }
+                    ciphertextBytes[i] = (byte)temp;
+                }
+
+                for (int i = 0; i < ciphertextBytes.Length; i++)
+                {
+                    plaintextBytes[i] = (byte)((ciphertextBytes[i] + 256 - iAdd) % 256);
+
+                }
+                rtbDataView.Text = Encoding.UTF8.GetString(plaintextBytes);
+                MessageBox.Show("Message decrypted");
+            }
         }
         //===Cryptography
 
