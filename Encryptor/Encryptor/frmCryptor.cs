@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace Encryptor
 {
@@ -254,10 +255,11 @@ namespace Encryptor
         public Byte[] Encrypt_Unique(Byte[] bPlainText, string sKey)
         {
             //Will encrypt data using Homebrew Cypher
-                Byte[] inputBytes = bPlainText;
-                string sUniqueKey = sKey;
+            Byte[] inputBytes = bPlainText;
+            string sUniqueKey = sKey.ToUpper();
 
-            if (sUniqueKey.Contains('-') && sKey.Length == 5)
+
+            if (sUniqueKey.Contains('-') && !Regex.IsMatch(sKey, "[A-Z]"))
             {
                 string[] key = sUniqueKey.Split('-');
                 Byte iAdd = (Byte)int.Parse(key[0]);
@@ -285,32 +287,41 @@ namespace Encryptor
 
         public Byte[] Decrypt_Unique(Byte[] bCipherText, string sKey)
         {
-
             Byte[] inputBytes = bCipherText;
             string sUniqueKey = sKey;
-            string[] key = sUniqueKey.Split('-');
-            Byte iAdd = (Byte)int.Parse(key[0]);
-            int iCeas = (Byte)int.Parse(key[1]);
-            Byte[] plaintextBytes = new Byte[inputBytes.Length];
 
-            for (int i = 0; i < inputBytes.Length; i++)
+            if (sUniqueKey.Contains('-') && !Regex.IsMatch(sKey, "[A-Z]"))
             {
-                Byte b = inputBytes[i];
-                int temp = b - iCeas;
-                if (temp < 0)
+                string[] key = sUniqueKey.Split('-');
+                Byte iAdd = (Byte)int.Parse(key[0]);
+                int iCeas = (Byte)int.Parse(key[1]);
+                Byte[] plaintextBytes = new Byte[inputBytes.Length];
+
+                for (int i = 0; i < inputBytes.Length; i++)
                 {
-                    temp += 256;
+                    Byte b = inputBytes[i];
+                    int temp = b - iCeas;
+                    if (temp < 0)
+                    {
+                        temp += 256;
+                    }
+                    inputBytes[i] = (Byte)temp;
                 }
-                inputBytes[i] = (Byte)temp;
-            }
 
-            for (int i = 0; i < inputBytes.Length; i++)
+                for (int i = 0; i < inputBytes.Length; i++)
+                {
+                    plaintextBytes[i] = (Byte)((inputBytes[i] + 256 - iAdd) % 256);
+                }
+
+                MessageBox.Show("UNIQUE SUCCESSFUL");
+                return plaintextBytes;
+            }
+            else
             {
-                plaintextBytes[i] = (Byte)((inputBytes[i] + 256 - iAdd) % 256);
+                MessageBox.Show("UNIQUE UNSUCCESSFUL");
+                return bCipherText;
             }
 
-            MessageBox.Show("UNIQUE SUCCESSFUL");
-            return plaintextBytes;
         }
         //====Unique
         //===Cryptography
